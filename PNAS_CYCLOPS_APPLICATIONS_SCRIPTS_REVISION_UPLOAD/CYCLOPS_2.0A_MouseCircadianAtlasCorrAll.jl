@@ -1,30 +1,35 @@
-addprocs(5)
+using Distributed
+
+addprocs(7)
 LOAD_PATH
-LOAD_PATH=LOAD_PATH[1:2]
-basedir=homedir();
-netdir=string(basedir,"/Google Drive/PNAS_CYCLOPS_SCRIPTS/PNAS_CYCLOPS_PROGRAM_SCRIPTS_REVISION_UPLOAD");
-cd(netdir);
+netdir=pwd()
+print(pwd())
 push!(LOAD_PATH,netdir)
+println(LOAD_PATH)
 
 using StatsBase
 using MultivariateStats
 using Distributions
+include("CYCLOPS_2a_PreNPostprocessModule.jl")
+include("CYCLOPS_2a_AutoEncoderModule.jl")
 
-using CYCLOPS_2a_AutoEncoderModule
-using CYCLOPS_2a_PreNPostprocessModule
+include("CYCLOPS_2a_MCA.jl")
+include("CYCLOPS_2a_MultiCoreModule_Smooth.jl")
+include("CYCLOPS_2a_Seed.jl")
+include("CYCLOPS_2a_CircularStats_U.jl")
 
-
-
-using CYCLOPS_2a_MCA
-using CYCLOPS_2a_MultiCoreModule_Smooth
-using CYCLOPS_2a_Seed
-using CYCLOPS_2a_CircularStats_U
+using "CYCLOPS_2a_AutoEncoderModule.jl"
+using "CYCLOPS_2a_PreNPostprocessModule"
+using "CYCLOPS_2a_MCA"
+using "CYCLOPS_2a_MultiCoreModule_Smooth"
+using "CYCLOPS_2a_Seed"
+using "CYCLOPS_2a_CircularStats_U"
 
 using PyPlot
 
-indir	=			string(basedir,"/Documents/MouseCircadianAtlas/Data");
-homologuedir	=	string(basedir,"/Documents/MouseCircadianAtlas/Data");
-outdir	=			string(basedir,"/Google Drive/CYCLOPS_OUTPUT_FINAL_DISP_DISP/MCA")
+indir	=			"/Documents/MouseCircadianAtlas/Data");
+homologuedir	=	"/Documents/MouseCircadianAtlas/Data");
+outdir	=			"/Google Drive/CYCLOPS_OUTPUT_FINAL_DISP_DISP/MCA")
 
 ############################################################
 Frac_Var=0.85 # Set Number of Dimensions of SVD to maintain this fraction of variance
@@ -79,7 +84,7 @@ for file_name in file_list
 	tissue_thresholds 			=	hcat(seedinfo[2:end,1],sum((seedinfo[2:end,seedinfo_tissue_col] .<= 0.05),2))
 	non_tissue_thresholds 		=	hcat(seedinfo[2:end,1],sum((seedinfo[2:end,seedinfo_nontissue_cols] .<= 0.05),2))
 
-	
+
 	alldata_data=float(fullnonseed_data[2:end,4:end])
 	nprobes=size(alldata_probes)[1]
 	cutrank=nprobes-MaxSeeds
@@ -93,7 +98,7 @@ for file_name in file_list
 
 	seed_data_dispersion1, seed_symbols1				=	CYCLOPS_MCA_DataPrepare(fullnonseed_data,seed_list1,Seed_MaxCV,Seed_MinCV,Seed_MinMean,Seed_Blunt)
 	outs1, norm_seed_data1								=	GetEigenGenes(seed_data_dispersion1,Frac_Var,DFrac_Var,30)
-	
+
 	seed_data_dispersion2, seed_symbols2				=	CYCLOPS_MCA_DataPrepare(fullnonseed_data,seed_list2,Seed_MaxCV,Seed_MinCV,Seed_MinMean,Seed_Blunt)
 	outs2, norm_seed_data2								=	GetEigenGenes(seed_data_dispersion2,Frac_Var,DFrac_Var,30)
 
@@ -104,7 +109,7 @@ for file_name in file_list
 	a1=@spawn CYCLOPS_Order(outs1,norm_seed_data1,N_best);
 	a2=@spawn CYCLOPS_Order(outs2,norm_seed_data2,N_best);
 	a3=@spawn CYCLOPS_Order(outs3,norm_seed_data3,N_best);
-	
+
 
 	estimated_phaselist1,bestnet1,global_var_metrics1=fetch(a1);
 	estimated_phaselist2,bestnet2,global_var_metrics2=fetch(a2);
@@ -124,7 +129,7 @@ for file_name in file_list
     println(global_smooth_metrics1)
     println(global_smooth_metrics2)
     println(global_smooth_metrics3)
-    
+
 	global_metrics1=[global_var_metrics1]
 	global_metrics2=[global_var_metrics2]
 	global_metrics3=[global_var_metrics3]
@@ -136,11 +141,11 @@ for file_name in file_list
 #	if (global_smooth_metrics1[1]<1)
 #	    pv1=multicore_backgroundstatistics_global_eigen(seed_data_dispersion1,outs1,N_best,total_background_num,global_metrics1)
 #	end
-	
+
 #	if (global_smooth_metrics2[1]<1)
 #	    pv2=multicore_backgroundstatistics_global_eigen(seed_data_dispersion2,outs2,N_best,total_background_num,global_metrics2)
 #	end
-	    
+
 #   if (global_smooth_metrics3[1]<1)
 #	    pv3=multicore_backgroundstatistics_global_eigen(seed_data_dispersion3,outs3,N_best,total_background_num,global_metrics3)
 #	end
@@ -158,7 +163,7 @@ for file_name in file_list
    	correlations1=Jammalamadka_Circular_CorrelationMeasures(2*pi*truetimes/24,float(mod(shiftephaselist1,2*pi)))
     correlations2=Jammalamadka_Circular_CorrelationMeasures(2*pi*truetimes/24,float(mod(shiftephaselist2,2*pi)))
     correlations3=Jammalamadka_Circular_CorrelationMeasures(2*pi*truetimes/24,float(mod(shiftephaselist3,2*pi)))
-    
+
 
     scatter(plottimes,shiftephaselist1,color="DarkRed",alpha=.75,s=14)
  	scatter(plottimes,shiftephaselist2,color="DarkGreen",alpha=.75,s=14)
@@ -168,7 +173,7 @@ for file_name in file_list
     ylabs=[0, "","π","","2π"]
     xlabp=[0,6,12,18,24]
     xlabs=["0", "6","12","18","24"]
- 		
+
  	xticks(xlabp, xlabs)
  	yticks(ylabp, ylabs)
 	title(tissue)
@@ -186,7 +191,7 @@ for file_name in file_list
 
 	if (pv3[3]<=.05)
 		text(26,0.14,"*",color="DarkBlue",fontsize=20)
-	end	
+	end
     text(25,1.14,string(round(correlations3[2],2)),color="DarkBlue",fontsize=11)
 end
 cd(outdir);
