@@ -2,7 +2,7 @@ addprocs(5)
 LOAD_PATH
 LOAD_PATH=LOAD_PATH[1:2]
 basedir=homedir();
-netdir=string(basedir,"/Google Drive/JuliaCYCLOPS2a/");
+netdir=pwd()
 cd(netdir);
 push!(LOAD_PATH,netdir)
 
@@ -134,9 +134,9 @@ for n in 1:4
 		ylabs=[]
 		xticks(xlabp, xlabs)
 		yticks(ylabp, ylabs)
-	
 
-	subplot(5,2,m2)	
+
+	subplot(5,2,m2)
         scatter(shiftephaselist1,clockdata[n,[timestamped_samples]],alpha=.75,s=7)
         title(clockannotations[n])
 		xlabp=[0,2*pi]
@@ -160,7 +160,7 @@ subplot(5,2,m1)
 	yticks(ylabp, ylabs)
 	xlabel("Hour of Death", fontsize=18,color="DarkRed")
 
-subplot(5,2,m2)	
+subplot(5,2,m2)
     scatter(shiftephaselist1,clockdata[n,[timestamped_samples]],alpha=.75,s=7)
     title(clockannotations[n])
 	xlabp=[0,2*pi]
@@ -172,7 +172,7 @@ subplot(5,2,m2)
 	xlabel("CYCLOPS Phase", fontsize=18,color="DarkBlue")
 
 text(-4*pi,600,"Relative Expression",rotation="vertical",fontsize=19)
-	
+
 #suptitle("Gene Expression As A Function of TOD and CYCLOPS Phase ", fontsize=14, fontweight="bold")
 
 ############################
@@ -186,9 +186,9 @@ for n in 1:20
 		xlabp=[0,24]
 		xlabs=["0","24"]
 		xticks(xlabp, xlabs)
-	
 
-	subplot(5,8,m2)	
+
+	subplot(5,8,m2)
         scatter(shiftephaselist1,seed_data1[n,[timestamped_samples]],alpha=.75,s=7)
         title(seed_symbols1[n])
 		xlabp=[0,2*pi]
@@ -196,7 +196,7 @@ for n in 1:20
 		yticks=[]
 		ylabs=[]
 		xticks(xlabp, xlabs)
-	
+
 
 	end
 ####################

@@ -30,7 +30,7 @@ function circ(z::Float64,zstar::Float64)
   z/(sqrt(z^2+zstar^2))
 end
 ######################################################################
-type Input_Layer
+struct Input_Layer
     a::Array{Float64,1}           # activation/input value
 end
 
@@ -39,7 +39,7 @@ function Create_InputLayer(in_dim::Integer)
     l
 end
 ######################################################################
-type Output_Layer
+struct Output_Layer
     z::Array{Float64,1}           # pre activation value
     a::Array{Float64,1}           # activation value
 
@@ -63,7 +63,7 @@ function Find_Partner(x::Integer) # find index of partnered node
     partner
 end
 
-type BottleNeck_Layer
+struct BottleNeck_Layer
     z::Array{Float64,1}           # pre activation value
     a::Array{Float64,1}           # post activation value
 
@@ -87,7 +87,7 @@ function Create_BottleNeckLayer(layer_size::Integer,n_circ::Integer)
     BottleNeck_Layer(z,a,a_func,jstar)
 end
 ######################################################################
-type Layer_Connections
+struct Layer_Connections
     w::Array{Float64,2}   # w[j,k] weight of connection from node k in previous layer to node j in this layer
     b::Array{Float64,1}    # b[j] bias of node j in present layer
 end
@@ -98,7 +98,7 @@ function Initialize_Layer_Connections(layer_dim::Integer,in_dim::Integer)
     Layer_Connections(w,b)
 end
 ######################################################################
-type NeuralNetwork
+struct NeuralNetwork
     dim ::Integer
     nbottle::Integer
     ncirc::Integer
@@ -142,7 +142,7 @@ function Feed_Forward!(data::Array{Float64,1},NN::NeuralNetwork)
     end
 end
 ######################################################################
-type Delta #following Michael Nielson text delta=dCost/dz
+struct Delta #following Michael Nielson text delta=dCost/dz
     blayer::Array{Float64,1}
     olayer::Array{Float64,1}
 end

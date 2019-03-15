@@ -274,7 +274,8 @@ alldata_data=float(annotated_data[2:end , NumericStartCol:end]);
 
 ngenes=size(alldata_data)[1]
 rowbin=int(floor(ngenes/5));
-tic()
+
+
 estimated_phaselist=vec(PREDICTED_PHASELIST)
 c1=@spawn MultiCore_Cosinor_Statistics(alldata_data[(1:(1*rowbin)),:],estimated_phaselist) ;
 c2=@spawn MultiCore_Cosinor_Statistics(alldata_data[((1+1*rowbin):(2*rowbin)),:],estimated_phaselist,n_shifts);
@@ -287,7 +288,8 @@ PrbPval2,PrbPhase2,PrbAmp2,PrbFitMean2,PrbMean2,PrbRsq2=fetch(c2);
 PrbPval3,PrbPhase3,PrbAmp3,PrbFitMean3,PrbMean3,PrbRsq3=fetch(c3);
 PrbPval4,PrbPhase4,PrbAmp4,PrbFitMean4,PrbMean4,PrbRsq4=fetch(c4);
 PrbPval5,PrbPhase5,PrbAmp5,PrbFitMean5,PrbMean5,PrbRsq5=fetch(c5);
-toc()
+
+
 
 PrbPval=vcat(PrbPval1,PrbPval2,PrbPval3,PrbPval4,PrbPval5);
 PrbPhase=vcat(PrbPhase1,PrbPhase2,PrbPhase3,PrbPhase4,PrbPhase5);

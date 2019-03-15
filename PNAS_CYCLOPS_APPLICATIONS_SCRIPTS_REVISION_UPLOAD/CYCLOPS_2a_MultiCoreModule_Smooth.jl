@@ -3,8 +3,9 @@ module CYCLOPS_2a_MultiCoreModule_Smooth
 using Distributed
 using StatsBase
 using MultivariateStats
-using CYCLOPS_2a_AutoEncoderModule
-using CYCLOPS_2a_PreNPostprocessModule
+
+include("CYCLOPS_2a_AutoEncoderModule.jl")
+include("CYCLOPS_2a_PreNPostprocessModule.jl")
 
 export backgroundmetrics_global_eigen
 export multicore_backgroundmetrics_global_eigen

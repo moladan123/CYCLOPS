@@ -10,6 +10,7 @@ println(LOAD_PATH)
 using StatsBase
 using MultivariateStats
 using Distributions
+
 include("CYCLOPS_2a_PreNPostprocessModule.jl")
 include("CYCLOPS_2a_AutoEncoderModule.jl")
 
@@ -18,18 +19,11 @@ include("CYCLOPS_2a_MultiCoreModule_Smooth.jl")
 include("CYCLOPS_2a_Seed.jl")
 include("CYCLOPS_2a_CircularStats_U.jl")
 
-using "CYCLOPS_2a_AutoEncoderModule.jl"
-using "CYCLOPS_2a_PreNPostprocessModule"
-using "CYCLOPS_2a_MCA"
-using "CYCLOPS_2a_MultiCoreModule_Smooth"
-using "CYCLOPS_2a_Seed"
-using "CYCLOPS_2a_CircularStats_U"
-
 using PyPlot
 
-indir	=			"/Documents/MouseCircadianAtlas/Data");
-homologuedir	=	"/Documents/MouseCircadianAtlas/Data");
-outdir	=			"/Google Drive/CYCLOPS_OUTPUT_FINAL_DISP_DISP/MCA")
+indir	=			"/Documents/MouseCircadianAtlas/Data"
+homologuedir	=	"/Documents/MouseCircadianAtlas/Data"
+outdir	=			"/Google Drive/CYCLOPS_OUTPUT_FINAL_DISP_DISP/MCA"
 
 ############################################################
 Frac_Var=0.85 # Set Number of Dimensions of SVD to maintain this fraction of variance
@@ -42,7 +36,7 @@ n_cores=5; # Number of machine cores
 
 ############################################################
 cd(homologuedir);
-seedinfo=readcsv("MCA_CyclingSeeds.csv");
+seedinfo=readcsv("/Volumes/Unititled/Jan-Apr-2019/CYCLOPS/RNA_DATA.csv");
 seedinfo[2:end,15]=int(seedinfo[2:end,15])
 #####################################################################################################
 Seed_MinCV 				= 0.14

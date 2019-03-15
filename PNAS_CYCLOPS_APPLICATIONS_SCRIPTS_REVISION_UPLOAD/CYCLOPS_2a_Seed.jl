@@ -53,7 +53,7 @@ end
 
 
 function getseed_mca(data::Array{Any,2},probe_list,maxcv=.75,mincv=.07,minmean=500,blunt=.99)
-	
+
 	data_symbols=data[2:end ,2];
 	data_probes=data[2:end ,1];
 
@@ -80,7 +80,7 @@ end
 
 
 function getseed_homologuesymbol(data::Array{Any,2},symbol_list,maxcv=.75,mincv=.07,minmean=500,blunt=.99)
-	
+
 	data_symbols=data[2:end ,2];
 	data_probes=data[2:end ,1];
 
@@ -108,7 +108,7 @@ end
 
 
 function getseed_homologueprobe(data::Array{Any,2},probe_list,maxcv=.75,mincv=.07,minmean=500,blunt=.99)
-	
+
 	data_symbols=data[2:end ,2];
 	data_probes=data[2:end ,1];
 
@@ -163,19 +163,19 @@ end
 function setdiff(x,y)
        	z= [x[1]]
        	for element in x
-       		if !in(element,y) 
+       		if !in(element,y)
        			push!(z,element)
        		end
        	end
     z=z[2:length(z)]
     z
-end	
-	
+end
+
 ###############
 
 
 function getseed_homologuesymbol_brain(data::Array{Any,2},symbol_list,maxcv=.75,mincv=.07,minmean=500,blunt=.99)
-	
+
 	data_symbols=data[4:end ,2];
 	data_probes=data[4:end ,1];
 

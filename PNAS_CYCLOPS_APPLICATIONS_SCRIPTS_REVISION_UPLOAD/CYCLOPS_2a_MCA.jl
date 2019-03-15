@@ -2,8 +2,8 @@ module	CYCLOPS_2a_MCA
 
 export  CYCLOPS_MCA_DataPrepare
 
-using	CYCLOPS_2a_Seed
-using	CYCLOPS_2a_PreNPostprocessModule
+include("CYCLOPS_2a_Seed.jl")
+include("CYCLOPS_2a_PreNPostprocessModule.jl")
 #############################################################################
 #############################################################################
 function CYCLOPS_MCA_DataPrepare(l_data::Array{Any,2},l_seed_list,maxcv=.75,mincv=.07,minmean=400,blunt=.95,Frac_Var=0.85, DFrac_Var=0.03)
@@ -13,7 +13,7 @@ function CYCLOPS_MCA_DataPrepare(l_data::Array{Any,2},l_seed_list,maxcv=.75,minc
 #	(outs,norm_seed_data)= GetEigenGenes(seed_data,Frac_Var,DFrac_Var,30); #choose this option for EIGEN dimension reduction (Eigenvectors count equally)
 	seed_data, seed_symbols
 #   outs,norm_seed_data
-end 
+end
 #############################################################################
 #############################################################################
 end
